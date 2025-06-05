@@ -40,7 +40,7 @@ export default function ReactionSimulator() {
     }, 800);
   };
 
-   const handleExample = (example) => {
+  const handleExample = (example) => {
     const [r, p] = example.split('->');
     setReactants(r.trim());
     setProducts(p.trim());
@@ -78,3 +78,43 @@ export default function ReactionSimulator() {
         </div>
       </div>
       
+      <button 
+        onClick={handleBalance}
+        disabled={isLoading}
+        className={styles.button}
+      >
+        {isLoading ? 'Balancing...' : 'Balance Reaction'}
+      </button>
+      
+      {error && <p className={styles.error}>{error}</p>}
+      
+      {balancedEquation && (
+        <div className={styles.result}>
+          <h3>Balanced Equation:</h3>
+          <p className={styles.equation}>
+            {balancedEquation}
+          </p>
+        </div>
+      )}
+      
+      <div className={styles.examples}>
+        <p>Example reactions:</p>
+        <div className={styles.exampleButtons}>
+          {[
+            'H2 + O2 -> H2O',
+            'Fe + O2 -> Fe2O3',
+            'CH4 + O2 -> CO2 + H2O'
+          ].map((example) => (
+            <button
+              key={example}
+              onClick={() => handleExample(example)}
+              className={styles.exampleButton}
+            >
+              {example}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
