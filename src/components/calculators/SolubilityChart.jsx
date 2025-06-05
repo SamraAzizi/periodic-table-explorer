@@ -43,3 +43,53 @@ export default function SolubilityChart() {
     // const ctx = canvasRef.current.getContext('2d');
     // new Chart(ctx, { ... });
   }, [selectedCompound]);
+
+  return (
+    <div className={styles.chartContainer}>
+      <h2>Solubility Chart</h2>
+      
+      <div className={styles.controls}>
+        <select
+          value={selectedCompound}
+          onChange={(e) => setSelectedCompound(e.target.value)}
+          className={styles.select}
+        >
+          {Object.keys(solubilityData).map(compound => (
+            <option key={compound} value={compound}>
+              {compound}
+            </option>
+          ))}
+        </select>
+      </div>
+      
+      <div className={styles.chartWrapper}>
+        <canvas ref={canvasRef} className={styles.chart} />
+        
+        {/* Fallback content for when canvas isn't available */}
+        <div className={styles.chartFallback}>
+          <h3>{selectedCompound} Solubility (g/100g water)</h3>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Temperature (°C)</th>
+                <th>Solubility</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(solubilityData[selectedCompound]).map(([temp, solubility]) => (
+                <tr key={temp}>
+                  <td>{temp}</td>
+                  <td>{solubility} g</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div className={styles.note}>
+        <p>Note: Solubility values are approximate and vary with pressure.</p>
+      </div>
+    </div>
+  );
+}
