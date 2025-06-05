@@ -32,7 +32,7 @@ export default function MolarMassCalculator() {
     }
   };
 
-   const handleKeyPress = (e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleCalculate();
     }
@@ -71,3 +71,25 @@ export default function MolarMassCalculator() {
           </p>
         </div>
       )}
+      
+      <div className={styles.examples}>
+        <p>Try these examples:</p>
+        <div className={styles.exampleButtons}>
+          {['H2O', 'CO2', 'NaCl', 'C6H12O6'].map((example) => (
+            <button
+              key={example}
+              onClick={() => {
+                setFormula(example);
+                setResult(null);
+                setError('');
+              }}
+              className={styles.exampleButton}
+            >
+              {example}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
