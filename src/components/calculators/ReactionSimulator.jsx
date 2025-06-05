@@ -39,3 +39,42 @@ export default function ReactionSimulator() {
       }
     }, 800);
   };
+
+   const handleExample = (example) => {
+    const [r, p] = example.split('->');
+    setReactants(r.trim());
+    setProducts(p.trim());
+    setBalancedEquation('');
+    setError('');
+  };
+
+  return (
+    <div className={styles.calculator}>
+      <h2>Chemical Reaction Balancer</h2>
+      
+      <div className={styles.reactionInputs}>
+        <div className={styles.inputGroup}>
+          <label>Reactants:</label>
+          <input
+            type="text"
+            value={reactants}
+            onChange={(e) => setReactants(e.target.value)}
+            placeholder="e.g., H2 + O2"
+            className={styles.input}
+          />
+        </div>
+        
+        <div className={styles.arrow}>→</div>
+        
+        <div className={styles.inputGroup}>
+          <label>Products:</label>
+          <input
+            type="text"
+            value={products}
+            onChange={(e) => setProducts(e.target.value)}
+            placeholder="e.g., H2O"
+            className={styles.input}
+          />
+        </div>
+      </div>
+      
