@@ -34,3 +34,39 @@ export default function PeriodicTable({ elements }) {
           }
         }
       });
+
+       setTableData(organized);
+    }
+  }, [elements]);
+
+  const handleElementClick = (element) => {
+    setSelectedElement(element);
+  };
+
+  const handleCloseCard = () => {
+    setSelectedElement(null);
+  };
+
+  const getGroupName = (group) => {
+    const groupNames = {
+      1: 'Alkali Metals',
+      2: 'Alkaline Earth Metals',
+      17: 'Halogens',
+      18: 'Noble Gases',
+      3: 'Transition Metals',
+      4: 'Transition Metals',
+      5: 'Transition Metals',
+      6: 'Transition Metals',
+      7: 'Transition Metals',
+      8: 'Transition Metals',
+      9: 'Transition Metals',
+      10: 'Transition Metals',
+      11: 'Transition Metals',
+      12: 'Transition Metals',
+      13: 'Boron Group',
+      14: 'Carbon Group',
+      15: 'Nitrogen Group',
+      16: 'Oxygen Group'
+    };
+    return groupNames[group] || '';
+  };
