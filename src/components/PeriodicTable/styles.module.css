@@ -1,0 +1,67 @@
+.periodicTableContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.periodicTable {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 20px;
+}
+
+.period {
+  display: flex;
+  gap: 2px;
+}
+
+.elementTile {
+  position: relative;
+  width: 60px;
+  height: 70px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: white;
+  font-weight: bold;
+}
+
+.elementTile:hover {
+  transform: scale(1.05);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.highlighted {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 2px gold;
+  z-index: 5;
+}
+
+.smallTile {
+  width: 45px;
+  height: 45px;
+  margin: 2px;
+}
+
+.emptyTile {
+  width: 60px;
+  height: 70px;
+  visibility: hidden;
+}
