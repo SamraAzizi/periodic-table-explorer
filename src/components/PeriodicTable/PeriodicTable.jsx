@@ -34,8 +34,8 @@ export default function PeriodicTable({ elements }) {
           }
         }
       });
-
-       setTableData(organized);
+      
+      setTableData(organized);
     }
   }, [elements]);
 
@@ -70,3 +70,87 @@ export default function PeriodicTable({ elements }) {
     };
     return groupNames[group] || '';
   };
+
+  return (
+    <div className={styles.periodicTableContainer}>
+      <h1 className={styles.title}>Interactive Periodic Table</h1>
+      
+      <div className={styles.legend}>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map(group => (
+          <button
+            key={group}
+            className={`${styles.groupButton} ${styles[`group${group}`]}`}
+            onMouseEnter={() => setHighlightGroup(group)}
+            onMouseLeave={() => setHighlightGroup(null)}
+            onClick={() => setHighlightGroup(group === highlightGroup ? null : group)}
+          >
+            {group}
+            <span className={styles.groupTooltip}>{getGroupName(group)}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className={styles.tableWrapper}>
+        <div className={styles.periodicTable}>
+          {tableData.map((period, rowIndex) => (
+            <div key={`period-${rowIndex}`} className={styles.period}>
+              {period.map((element, colIndex) => (
+                element ? (
+                  <ElementTile
+                    key={element.number}
+                    element={element}
+                    onClick={handleElementClick}
+                    highlighted={highlightGroup === (colIndex + 1)}
+                  />
+                ) : (
+                  <div key={`empty-${rowIndex}-${colIndex}`} className={styles.emptyTile} />
+                )
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Lanthanides and Actinides series */}
+        <div className={styles.seriesContainer}>
+          <div className={styles.series}>
+            <h3>Lanthanides</h3>
+            {elements
+              .filter(el => el.category === 'lanthanide')
+              .sort((a, b) => a.number - b.number)
+              .map(element => (
+                <ElementTile
+                  key={element.number}
+                  element={element}
+                  onClick={handleElementClick}
+                  small
+                  highlighted={highlightGroup === 3}
+                />
+              ))}
+          </div>
+          <div className={styles.series}>
+            <h3>Actinides</h3>
+            {elements
+              .filter(el => el.category === 'actinide')
+              .sort((a, b) => a.number - b.number)
+              .map(element => (
+                <ElementTile
+                  key={element.number}
+                  element={element}
+                  onClick={handleElementClick}
+                  small
+                  highlighted={highlightGroup === 3}
+                />
+              ))}
+          </div>
+        </div>
+      </div>
+
+      {selectedElement && (
+        <ElementCard
+          element={selectedElement}
+          onClose={handleCloseCard}
+        />
+      )}
+    </div>
+  );
+}
