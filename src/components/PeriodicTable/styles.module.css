@@ -65,6 +65,7 @@
   height: 70px;
   visibility: hidden;
 }
+
 /* Element category colors */
 .nonmetal {
   background-color: #3f51b5;
@@ -134,4 +135,120 @@
 .atomicMass {
   font-size: 0.5rem;
   opacity: 0.8;
+}
+
+/* Lanthanides and Actinides series */
+.seriesContainer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.series {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.series h3 {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.series > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Group highlighting legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.groupButton {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.groupButton:hover {
+  transform: scale(1.1);
+}
+
+.groupTooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  pointer-events: none;
+}
+
+.groupButton:hover .groupTooltip {
+  opacity: 1;
+  visibility: visible;
+  bottom: 120%;
+}
+
+/* Group color coding */
+.group1 { background-color: #ffcdd2 !important; }
+.group2 { background-color: #ffccbc !important; }
+.group3 { background-color: #dcedc8 !important; }
+.group4 { background-color: #c8e6c9 !important; }
+.group5 { background-color: #b2dfdb !important; }
+.group6 { background-color: #b3e5fc !important; }
+.group7 { background-color: #bbdefb !important; }
+.group8 { background-color: #e1bee7 !important; }
+.group9 { background-color: #d1c4e9 !important; }
+.group10 { background-color: #c5cae9 !important; }
+.group11 { background-color: #d7ccc8 !important; }
+.group12 { background-color: #cfd8dc !important; }
+.group13 { background-color: #ffecb3 !important; }
+.group14 { background-color: #ffcc80 !important; }
+.group15 { background-color: #ffab91 !important; }
+.group16 { background-color: #b39ddb !important; }
+.group17 { background-color: #f48fb1 !important; }
+.group18 { background-color: #90caf9 !important; }
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .elementTile {
+    width: 40px;
+    height: 50px;
+  }
+
+  .symbol {
+    font-size: 0.9rem;
+  }
+
+  .name, .atomicMass {
+    display: none;
+  }
+
+  .seriesContainer {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
