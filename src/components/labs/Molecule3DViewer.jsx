@@ -129,3 +129,79 @@ export default function Molecule3DViewer({ molecule }) {
         sceneInfo.scene.add(sphere);
         return sphere;
       });
+
+      // Create bonds (cylinders)
+      moleculeData.bonds.forEach(bond => {
+        const fromAtom = moleculeData.atoms[bond.from];
+        const toAtom = moleculeData.atoms[bond.to];
+        
+        const fromVec = new THREE.Vector3(fromAtom.x * 2, fromAtom.y * 2, fromAtom.z * 2);
+        const toVec = new THREE.Vector3(toAtom.x * 2, toAtom.y * 2, toAtom.z * 2);
+        const distance = fromVec.distanceTo(toVec);
+        
+        const geometry = new THREE.CylinderGeometry(0.1, 0.1, distance, 8);
+        geometry.rotateZ(Math.PI / 2); // Align cylinder along X axis initially
+        
+        const material = new THREE.MeshPhongMaterial({ 
+          color: 0xcccccc,
+          shininess: 30
+        });
+        
+        const bondCylinder = new THREE.Mesh(geometry, material);
+        
+        // Position the cylinder between the two atoms
+        bondCylinder.position.x = (fromVec.x + toVec.x) / 2;
+        bondCylinder.position.y = (fromVec.y + toVec.y) / 2;
+        bondCylinder.position.z = (fromVec.z + toVec.z) / 2;
+        
+        // Rotate the cylinder to point from one atom to the other
+        bondCylinder.quaternion.setFromUnitVectors(
+          new THREE.Vector3(1, 0, 0),
+          new THREE.Vector3().subVectors(toVec, fromVec).normalize()
+        );
+        
+        sceneInfo.scene.add(bondCylinder);
+      });
+
+      // Auto-rotate for better viewing
+      sceneInfo.controls.autoRotate = true;
+      sceneInfo.controls.autoRotateSpeed = 1.5;
+
+      setLoading(false);
+    } catch (err) {
+      console.error('Error loading molecule:', err);
+      setError('Failed to load molecule model');
+      setLoading(false);
+    }
+  }, [molecule, sceneInfo]);
+
+  return (
+    <div className={styles.viewerContainer}>
+      <h2>3D Molecule Viewer</h2>
+      
+      <div className={styles.controls}>
+        <select 
+          value={molecule || 'h2o'} 
+          onChange={(e) => {} /* In a real app, this would update the molecule prop */}
+          className={styles.select}
+        >
+          <option value="h2o">Water (H₂O)</option>
+          <option value="ch4">Methane (CH₄)</option>
+        </select>
+        
+        <button 
+          onClick={() => sceneInfo?.controls.reset()}
+          className={styles.button}
+        >
+          Reset View
+        </button>
+      </div>
+      
+      <div className={styles.canvasWrapper}>
+        {loading && <div className={styles.loading}>Loading molecule...</div>}
+        {error && <div className={styles.error}>{error}</div>}
+        
+        <canvas 
+          ref={canvasRef} 
+          className={styles.canvas}
+        />
