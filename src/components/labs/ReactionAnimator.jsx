@@ -80,3 +80,103 @@ export default function ReactionAnimator() {
     setIsPlaying(false);
     setProgress(0);
   };
+
+  const renderReactionAnimation = () => {
+    const currentStep = Math.floor(progress * reactions[reaction].steps.length);
+    const stepProgress = (progress * reactions[reaction].steps.length) % 1;
+
+    return (
+      <svg ref={svgRef} viewBox="0 0 800 300" className={styles.animation}>
+        {/* Background */}
+        <rect x="0" y="0" width="800" height="300" fill="#f5f5f5" />
+        
+        {/* Reaction-specific animation */}
+        {reaction === 'combustion' && (
+          <>
+            {/* Methane molecule (CH4) */}
+            <circle 
+              cx={200 - progress * 150} 
+              cy={150} 
+              r="20" 
+              fill="#333" 
+              className={styles.carbon}
+            />
+            {[0, 1, 2, 3].map(i => (
+              <circle
+                key={i}
+                cx={200 - progress * 150 + 30 * Math.cos(i * Math.PI/2)}
+                cy={150 + 30 * Math.sin(i * Math.PI/2)}
+                r="15"
+                fill="#fff"
+                className={styles.hydrogen}
+                style={{ opacity: 1 - stepProgress * (currentStep >= 1 ? 1 : 0) }}
+              />
+            ))}
+            
+            {/* Oxygen molecules (O2) */}
+            {[0, 1].map(i => (
+              <g key={i} style={{ opacity: 1 - stepProgress * (currentStep >= 2 ? 1 : 0) }}>
+                <circle 
+                  cx={400 + i * 40 - progress * 100} 
+                  cy={100 + i * 100} 
+                  r="20" 
+                  fill="#f00" 
+                  className={styles.oxygen}
+                />
+                <circle 
+                  cx={400 + i * 40 - progress * 100 + 30} 
+                  cy={100 + i * 100} 
+                  r="20" 
+                  fill="#f00" 
+                  className={styles.oxygen}
+                />
+              </g>
+            ))}
+            
+            {/* Resulting CO2 */}
+            <g style={{ opacity: stepProgress * (currentStep >= 2 ? 1 : 0) }}>
+              <circle 
+                cx={550} 
+                cy={150} 
+                r="20" 
+                fill="#333" 
+                className={styles.carbon}
+              />
+              <circle 
+                cx={590} 
+                cy={150} 
+                r="20" 
+                fill="#f00" 
+                className={styles.oxygen}
+              />
+              <circle 
+                cx={510} 
+                cy={150} 
+                r="20" 
+                fill="#f00" 
+                className={styles.oxygen}
+              />
+            </g>
+            
+            {/* Resulting H2O */}
+            {[0, 1].map(i => (
+              <g key={i} style={{ opacity: stepProgress * (currentStep >= 3 ? 1 : 0) }}>
+                <circle 
+                  cx={600 + i * 20} 
+                  cy={200 + i * 30} 
+                  r="15" 
+                  fill="#fff" 
+                  className={styles.hydrogen}
+                />
+                <circle 
+                  cx={620 - i * 20} 
+                  cy={230 - i * 30} 
+                  r="20" 
+                  fill="#f00" 
+                  className={styles.oxygen}
+                />
+              </g>
+            ))}
+          </>
+        )}
+        
