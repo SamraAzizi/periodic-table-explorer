@@ -205,3 +205,13 @@ export default function Molecule3DViewer({ molecule }) {
           ref={canvasRef} 
           className={styles.canvas}
         />
+        
+        <div className={styles.instructions}>
+          <p>• Click and drag to rotate</p>
+          <p>• Scroll to zoom</p>
+          <p>• Right-click and drag to pan</p>
+        </div>
+      </div>
+    </div>
+  );
+}
