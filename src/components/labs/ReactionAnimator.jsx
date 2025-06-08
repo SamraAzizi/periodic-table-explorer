@@ -31,3 +31,52 @@ export default function ReactionAnimator() {
       ]
     }
   };
+ useEffect(() => {
+    // Clean up animation frame on unmount
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isPlaying) {
+      const duration = 5000; // 5 seconds
+      const startTime = Date.now();
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const newProgress = Math.min(elapsed / duration, 1);
+        setProgress(newProgress);
+
+        if (newProgress < 1) {
+          animationRef.current = requestAnimationFrame(animate);
+        } else {
+          setIsPlaying(false);
+        }
+      };
+
+      animationRef.current = requestAnimationFrame(animate);
+    } else {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    }
+  }, [isPlaying]);
+
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+    } else {
+      if (progress >= 1) {
+        setProgress(0); // Reset if we reached the end
+      }
+      setIsPlaying(true);
+    }
+  };
+
+  const handleReset = () => {
+    setIsPlaying(false);
+    setProgress(0);
+  };
