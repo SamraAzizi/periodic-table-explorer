@@ -33,3 +33,38 @@ export default function Molecule3DViewer({ molecule }) {
 
     // Set camera position
     camera.position.z = 5;
+
+    // Handle window resize
+    const handleResize = () => {
+      camera.aspect = canvasRef.current.clientWidth / canvasRef.current.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(canvasRef.current.clientWidth, canvasRef.current.clientHeight);
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    // Animation loop
+    const animate = () => {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    // Store scene objects for cleanup
+    setSceneInfo({ scene, camera, renderer, controls });
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (sceneInfo) {
+        sceneInfo.controls.dispose();
+        sceneInfo.renderer.dispose();
+      }
+    };
+  }, [molecule]);
+
+  useEffect(() => {
+    if (!sceneInfo || !molecule) return;
+
+    setLoading(true);
+    setError(null);
