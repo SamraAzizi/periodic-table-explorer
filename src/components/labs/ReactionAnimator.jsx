@@ -31,7 +31,8 @@ export default function ReactionAnimator() {
       ]
     }
   };
- useEffect(() => {
+
+  useEffect(() => {
     // Clean up animation frame on unmount
     return () => {
       if (animationRef.current) {
@@ -180,3 +181,137 @@ export default function ReactionAnimator() {
           </>
         )}
         
+        {reaction === 'synthesis' && (
+          <>
+            {/* Nitrogen molecule (N2) */}
+            <circle 
+              cx={200 - progress * 100} 
+              cy={150} 
+              r="20" 
+              fill="#00f" 
+              className={styles.nitrogen}
+            />
+            <circle 
+              cx={240 - progress * 100} 
+              cy={150} 
+              r="20" 
+              fill="#00f" 
+              className={styles.nitrogen}
+            />
+            
+            {/* Hydrogen molecules (H2) */}
+            {[0, 1, 2].map(i => (
+              <g key={i} style={{ opacity: 1 - stepProgress * (currentStep >= 1 ? 1 : 0) }}>
+                <circle 
+                  cx={400 + i * 30 - progress * 50} 
+                  cy={100 + i * 50} 
+                  r="15" 
+                  fill="#fff" 
+                  className={styles.hydrogen}
+                />
+                <circle 
+                  cx={430 + i * 30 - progress * 50} 
+                  cy={100 + i * 50} 
+                  r="15" 
+                  fill="#fff" 
+                  className={styles.hydrogen}
+                />
+              </g>
+            ))}
+            
+            {/* Resulting NH3 molecules */}
+            {[0, 1].map(i => (
+              <g key={i} style={{ opacity: stepProgress * (currentStep >= 2 ? 1 : 0) }}>
+                <circle 
+                  cx={550 + i * 100} 
+                  cy={150} 
+                  r="20" 
+                  fill="#00f" 
+                  className={styles.nitrogen}
+                />
+                {[0, 1, 2].map(j => (
+                  <circle
+                    key={j}
+                    cx={550 + i * 100 + 25 * Math.cos(j * 2 * Math.PI/3)}
+                    cy={150 + 25 * Math.sin(j * 2 * Math.PI/3)}
+                    r="15"
+                    fill="#fff"
+                    className={styles.hydrogen}
+                  />
+                ))}
+              </g>
+            ))}
+          </>
+        )}
+        
+        {/* Bonds would be represented as lines between atoms */}
+        {/* This is simplified for the example */}
+        
+        {/* Reaction equation */}
+        <text x="400" y="280" textAnchor="middle" fontSize="24" fill="#333">
+          {reactions[reaction].equation}
+        </text>
+      </svg>
+    );
+  };
+
+  return (
+    <div className={styles.container}>
+      <h2>Chemical Reaction Animator</h2>
+      
+      <div className={styles.controls}>
+        <select
+          value={reaction}
+          onChange={(e) => {
+            setReaction(e.target.value);
+            setProgress(0);
+            setIsPlaying(false);
+          }}
+          className={styles.select}
+        >
+          <option value="combustion">Combustion of Methane</option>
+          <option value="synthesis">Ammonia Synthesis</option>
+        </select>
+        
+        <button 
+          onClick={handlePlayPause}
+          className={styles.button}
+        >
+          {isPlaying ? 'Pause' : 'Play'}
+        </button>
+        
+        <button 
+          onClick={handleReset}
+          className={styles.button}
+        >
+          Reset
+        </button>
+      </div>
+      
+      <div className={styles.progressContainer}>
+        <div 
+          className={styles.progressBar}
+          style={{ width: `${progress * 100}%` }}
+        />
+      </div>
+      
+      <div className={styles.animationContainer}>
+        {renderReactionAnimation()}
+      </div>
+      
+      <div className={styles.steps}>
+        <h3>Reaction Steps:</h3>
+        <ul>
+          {reactions[reaction].steps.map((step, index) => (
+            <li 
+              key={index}
+              className={index <= Math.floor(progress * reactions[reaction].steps.length) ? styles.activeStep : ''}
+            >
+              {step.description}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
