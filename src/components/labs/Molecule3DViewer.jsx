@@ -68,3 +68,64 @@ export default function Molecule3DViewer({ molecule }) {
 
     setLoading(true);
     setError(null);
+
+    try {
+      // Clear previous molecule
+      while (sceneInfo.scene.children.length > 2) {
+        sceneInfo.scene.remove(sceneInfo.scene.children[2]);
+      }
+
+      // Mock molecule data - in a real app, this would come from props or an API
+      const mockMolecules = {
+        'h2o': {
+          atoms: [
+            { element: 'O', x: 0, y: 0, z: 0 },
+            { element: 'H', x: 0.76, y: 0.58, z: 0 },
+            { element: 'H', x: -0.76, y: 0.58, z: 0 }
+          ],
+          bonds: [
+            { from: 0, to: 1 },
+            { from: 0, to: 2 }
+          ]
+        },
+        'ch4': {
+          atoms: [
+            { element: 'C', x: 0, y: 0, z: 0 },
+            { element: 'H', x: 0.63, y: 0.63, z: 0.63 },
+            { element: 'H', x: -0.63, y: -0.63, z: 0.63 },
+            { element: 'H', x: -0.63, y: 0.63, z: -0.63 },
+            { element: 'H', x: 0.63, y: -0.63, z: -0.63 }
+          ],
+          bonds: [
+            { from: 0, to: 1 },
+            { from: 0, to: 2 },
+            { from: 0, to: 3 },
+            { from: 0, to: 4 }
+          ]
+        }
+      };
+
+      const moleculeData = mockMolecules[molecule.toLowerCase()] || mockMolecules.h2o;
+
+      // Element colors and sizes
+      const elementProperties = {
+        'H': { color: 0xffffff, size: 0.4 },
+        'C': { color: 0x333333, size: 0.6 },
+        'O': { color: 0xff0000, size: 0.6 },
+        'N': { color: 0x0000ff, size: 0.6 },
+        'Cl': { color: 0x00ff00, size: 0.7 }
+      };
+
+      // Create atoms (spheres)
+      const atoms = moleculeData.atoms.map((atom, index) => {
+        const props = elementProperties[atom.element] || { color: 0xaaaaaa, size: 0.5 };
+        const geometry = new THREE.SphereGeometry(props.size, 32, 32);
+        const material = new THREE.MeshPhongMaterial({ 
+          color: props.color,
+          shininess: 100
+        });
+        const sphere = new THREE.Mesh(geometry, material);
+        sphere.position.set(atom.x * 2, atom.y * 2, atom.z * 2);
+        sceneInfo.scene.add(sphere);
+        return sphere;
+      });
