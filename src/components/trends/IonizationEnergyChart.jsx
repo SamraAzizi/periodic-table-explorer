@@ -43,7 +43,7 @@ export default function IonizationEnergyChart({ elements }) {
       '#4682B4', '#9ACD32'
     ];
 
-     const datasets = Object.keys(energyData).map(group => ({
+    const datasets = Object.keys(energyData).map(group => ({
       label: `Group ${group}`,
       data: energyData[group],
       borderColor: groupColors[group - 1],
@@ -116,3 +116,26 @@ export default function IonizationEnergyChart({ elements }) {
         }
       }
     });
+
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, [elements]);
+
+  return (
+    <div className={styles.chartContainer}>
+      <div className={styles.chartWrapper}>
+        <canvas ref={chartRef} />
+      </div>
+      <div className={styles.description}>
+        <h3>Ionization Energy Trend</h3>
+        <p>
+          Ionization energy increases across a period due to increasing nuclear charge,
+          and decreases down a group due to electron shielding and increased distance from the nucleus.
+        </p>
+      </div>
+    </div>
+  );
+}
