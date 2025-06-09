@@ -42,3 +42,77 @@ export default function IonizationEnergyChart({ elements }) {
       '#20B2AA', '#778899', '#FF6347', '#BA55D3',
       '#4682B4', '#9ACD32'
     ];
+
+     const datasets = Object.keys(energyData).map(group => ({
+      label: `Group ${group}`,
+      data: energyData[group],
+      borderColor: groupColors[group - 1],
+      backgroundColor: groupColors[group - 1],
+      borderWidth: 2,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      tension: 0.3,
+      fill: false
+    }));
+
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+
+    const ctx = chartRef.current.getContext('2d');
+    chartInstance.current = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Ionization Energy Trend',
+            font: {
+              size: 18
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const data = context.raw;
+                return `${data.symbol}: ${data.y} kJ/mol`;
+              }
+            }
+          },
+          legend: {
+            position: 'top',
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Period'
+            },
+            ticks: {
+              stepSize: 1
+            },
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'First Ionization Energy (kJ/mol)'
+            },
+            min: 0,
+            suggestedMax: 2500
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'nearest'
+        }
+      }
+    });
