@@ -47,3 +47,62 @@ export default function AtomicRadiusChart({ elements }) {
       tension: 0.3,
       fill: false
     }));
+
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+
+    const ctx = chartRef.current.getContext('2d');
+    chartInstance.current = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Atomic Radius Trend',
+            font: {
+              size: 18
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const data = context.raw;
+                return `${data.symbol}: ${data.y} pm`;
+              }
+            }
+          },
+          legend: {
+            position: 'top',
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Atomic Number'
+            },
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Atomic Radius (pm)'
+            },
+            min: 30,
+            max: 300
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'nearest'
+        }
+      }
+    });
