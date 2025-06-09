@@ -1,3 +1,7 @@
+import { useEffect, useRef } from 'react';
+import Chart from 'chart.js/auto';
+import styles from './styles.module.css';
+
 export default function AtomicRadiusChart({ elements }) {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
@@ -106,3 +110,26 @@ export default function AtomicRadiusChart({ elements }) {
         }
       }
     });
+
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, [elements]);
+
+  return (
+    <div className={styles.chartContainer}>
+      <div className={styles.chartWrapper}>
+        <canvas ref={chartRef} />
+      </div>
+      <div className={styles.description}>
+        <h3>Atomic Radius Trend</h3>
+        <p>
+          Atomic radius decreases across a period due to increasing nuclear charge,
+          and increases down a group due to additional electron shells.
+        </p>
+      </div>
+    </div>
+  );
+}
