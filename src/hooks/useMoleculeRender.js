@@ -68,3 +68,91 @@ export function useMoleculeRenderer(canvasRef) {
       renderer.dispose();
     };
   }, [canvasRef]);
+
+  // Load molecule when changed
+  useEffect(() => {
+    if (!molecule || !sceneRef.current) return;
+
+    const loadMolecule = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Clear previous molecule
+        while (sceneRef.current.children.length > 2) {
+          sceneRef.current.remove(sceneRef.current.children[2]);
+        }
+
+        // In a real app, this would load from your assets/models folder
+        const loader = new GLTFLoader();
+        
+        // Mock loading - in reality you would load from molecule.glb file
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Create simple molecule if no GLB file
+        createMockMolecule(molecule);
+        
+        // Auto-rotate for better viewing
+        controlsRef.current.autoRotate = true;
+        controlsRef.current.autoRotateSpeed = 1.5;
+      } catch (err) {
+        setError('Failed to load molecule model');
+        console.error('Error loading molecule:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const createMockMolecule = (mol) => {
+      // Example: Create simple water molecule
+      if (mol === 'h2o') {
+        // Oxygen atom
+        const oxygenGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const oxygenMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        const oxygen = new THREE.Mesh(oxygenGeometry, oxygenMaterial);
+        sceneRef.current.add(oxygen);
+
+        // Hydrogen atoms
+        const hydrogenGeometry = new THREE.SphereGeometry(0.3, 32, 32);
+        const hydrogenMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+        
+        const hydrogen1 = new THREE.Mesh(hydrogenGeometry, hydrogenMaterial);
+        hydrogen1.position.set(0.8, 0.6, 0);
+        sceneRef.current.add(hydrogen1);
+        
+        const hydrogen2 = new THREE.Mesh(hydrogenGeometry, hydrogenMaterial);
+        hydrogen2.position.set(-0.8, 0.6, 0);
+        sceneRef.current.add(hydrogen2);
+
+        // Bonds
+        const bondGeometry = new THREE.CylinderGeometry(0.1, 0.1, 1, 8);
+        const bondMaterial = new THREE.MeshPhongMaterial({ color: 0xcccccc });
+        
+        const bond1 = new THREE.Mesh(bondGeometry, bondMaterial);
+        bond1.position.set(0.4, 0.3, 0);
+        bond1.rotation.z = Math.PI / 4;
+        sceneRef.current.add(bond1);
+        
+        const bond2 = new THREE.Mesh(bondGeometry, bondMaterial);
+        bond2.position.set(-0.4, 0.3, 0);
+        bond2.rotation.z = -Math.PI / 4;
+        sceneRef.current.add(bond2);
+      }
+    };
+
+    loadMolecule();
+  }, [molecule]);
+
+  const resetView = () => {
+    if (controlsRef.current) {
+      controlsRef.current.reset();
+    }
+  };
+
+  return {
+    loading,
+    error,
+    loadMolecule: setMolecule,
+    resetView
+  };
+}
