@@ -44,3 +44,57 @@ export function ElementsProvider({ children }) {
     const filtered = elements.filter(element => {
       return Object.entries(criteria).every(([key, value]) => {
         if (value === null || value === '') return true;
+        
+        switch (key) {
+          case 'category':
+            return element.category.toLowerCase().includes(value.toLowerCase());
+          case 'group':
+            return element.group == value;
+          case 'period':
+            return element.period == value;
+          case 'state':
+            return element.phase.toLowerCase() === value.toLowerCase();
+          case 'search':
+            return (
+              element.name.toLowerCase().includes(value.toLowerCase()) ||
+              element.symbol.toLowerCase().includes(value.toLowerCase()) ||
+              element.number.toString().includes(value)
+            );
+          default:
+            return true;
+        }
+      });
+    });
+
+    setFilteredElements(filtered);
+  };
+
+  const getElementByNumber = (number) => {
+    return elements.find(element => element.number === number);
+  };
+
+  const value = {
+    elements,
+    filteredElements,
+    loading,
+    error,
+    selectedElement,
+    setSelectedElement,
+    filterElements,
+    getElementByNumber
+  };
+
+  return (
+    <ElementsContext.Provider value={value}>
+      {children}
+    </ElementsContext.Provider>
+  );
+}
+
+export function useElements() {
+  const context = useContext(ElementsContext);
+  if (context === undefined) {
+    throw new Error('useElements must be used within an ElementsProvider');
+  }
+  return context;
+}
