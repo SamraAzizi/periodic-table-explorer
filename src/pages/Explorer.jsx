@@ -63,3 +63,48 @@ export default function Explorer() {
               ))}
             </select>
           </div>
+
+          <div className={styles.filterGroup}>
+            <label>Group:</label>
+            <select
+              value={selectedGroup}
+              onChange={(e) => setSelectedGroup(e.target.value)}
+              className={styles.select}
+            >
+              <option value="all">All Groups</option>
+              {[...Array(18).keys()].map(i => (
+                <option key={i+1} value={i+1}>Group {i+1}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.filterGroup}>
+            <label>State:</label>
+            <select
+              value={selectedState}
+              onChange={(e) => setSelectedState(e.target.value)}
+              className={styles.select}
+            >
+              {states.map(state => (
+                <option key={state} value={state}>
+                  {state === 'all' ? 'All States' : state}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className={styles.content}>
+          <div className={styles.tableContainer}>
+            <PeriodicTable elements={elements} />
+          </div>
+          <div className={styles.elementDetails}>
+            <ElementCard />
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
