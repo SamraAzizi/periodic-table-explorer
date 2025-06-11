@@ -55,3 +55,36 @@ export default function Home() {
             <PeriodicTable elements={elements} />
           </div>
         </section>
+
+        <section className={styles.features}>
+          <h2>Features</h2>
+          <div className={styles.featureGrid}>
+            <div className={styles.featureCard}>
+              <h3>Detailed Element Data</h3>
+              <p>
+                Comprehensive information for each element including properties,
+                electron configuration, and more.
+              </p>
+            </div>
+            <div className={styles.featureCard}>
+              <h3>Periodic Trends</h3>
+              <p>
+                Visualize atomic radius, ionization energy, electronegativity,
+                and other periodic trends.
+              </p>
+            </div>
+            <div className={styles.featureCard}>
+              <h3>Chemistry Tools</h3>
+              <p>
+                Molar mass calculator, reaction balancer, and other useful
+                chemistry utilities.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
