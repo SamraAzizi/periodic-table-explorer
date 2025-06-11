@@ -51,3 +51,22 @@ export default function Labs() {
             </div>
           </div>
         )}
+
+        {activeTab === 'visualizations' && (
+          <div className={styles.visualizationsGrid}>
+            <div className={styles.visualizationCard}>
+              <h2>3D Molecule Viewer</h2>
+              <Molecule3DViewer molecule="h2o" />
+            </div>
+            <div className={styles.visualizationCard}>
+              <h2>Reaction Animator</h2>
+              <ReactionAnimator />
+            </div>
+          </div>
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
