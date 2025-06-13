@@ -1,0 +1,71 @@
+{
+  "atomic_radius": {
+    "description": "Decreases across a period, increases down a group",
+    "units": "pm",
+    "trends": {
+      "period_2": [
+        {"element": "Li", "value": 167},
+        {"element": "Be", "value": 112},
+        {"element": "B", "value": 87},
+        {"element": "C", "value": 67},
+        {"element": "N", "value": 56},
+        {"element": "O", "value": 48},
+        {"element": "F", "value": 42},
+        {"element": "Ne", "value": 38}
+      ],
+      "group_1": [
+        {"element": "Li", "value": 167},
+        {"element": "Na", "value": 190},
+        {"element": "K", "value": 243},
+        {"element": "Rb", "value": 265},
+        {"element": "Cs", "value": 298}
+      ]
+    }
+  },
+  "ionization_energy": {
+    "description": "Increases across a period, decreases down a group",
+    "units": "kJ/mol",
+    "trends": {
+      "period_2": [
+        {"element": "Li", "value": 520},
+        {"element": "Be", "value": 899},
+        {"element": "B", "value": 801},
+        {"element": "C", "value": 1086},
+        {"element": "N", "value": 1402},
+        {"element": "O", "value": 1314},
+        {"element": "F", "value": 1681},
+        {"element": "Ne", "value": 2081}
+      ],
+      "group_1": [
+        {"element": "Li", "value": 520},
+        {"element": "Na", "value": 496},
+        {"element": "K", "value": 419},
+        {"element": "Rb", "value": 403},
+        {"element": "Cs", "value": 376}
+      ]
+    }
+  },
+  "electronegativity": {
+    "description": "Increases across a period, decreases down a group",
+    "units": "Pauling scale",
+    "trends": {
+      "period_2": [
+        {"element": "Li", "value": 0.98},
+        {"element": "Be", "value": 1.57},
+        {"element": "B", "value": 2.04},
+        {"element": "C", "value": 2.55},
+        {"element": "N", "value": 3.04},
+        {"element": "O", "value": 3.44},
+        {"element": "F", "value": 3.98},
+        {"element": "Ne", "value": null}
+      ],
+      "group_1": [
+        {"element": "Li", "value": 0.98},
+        {"element": "Na", "value": 0.93},
+        {"element": "K", "value": 0.82},
+        {"element": "Rb", "value": 0.82},
+        {"element": "Cs", "value": 0.79}
+      ]
+    }
+  }
+}
