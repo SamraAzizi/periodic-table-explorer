@@ -1,7 +1,7 @@
 {
   "name": "periodic-table-explorer",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,21 +14,24 @@
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^7.1.0",
     "@react-three/fiber": "^9.1.2",
+    "@fvilers/disable-react-devtools": "^2.2.0",
     "chart.js": "^4.4.9",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.1",
     "three": "^0.177.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.4.1",
-    "eslint": "^9.25.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "prettier": "^3.0.0",
     "vite": "^6.3.5"
   }
 }
