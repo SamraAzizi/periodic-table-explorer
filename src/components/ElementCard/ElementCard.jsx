@@ -1,5 +1,7 @@
 import React from 'react';
-
+import React from 'react';
+import styles from './styles.modules.css';  // Add this import
+import ElectronConfig from './ElectronConfig';
 import ElectronConfig from './ElectronConfig';
 import { useElements } from '../../contexts/ElementsContext';
 

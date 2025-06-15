@@ -7,7 +7,7 @@ import ReactionSimulator from '../components/calculators/ReactionSimulator';
 import SolubilityChart from '../components/calculators/SolubilityChart';
 import Molecule3DViewer from '../components/labs/Molecule3DViewer';
 import ReactionAnimator from '../components/labs/ReactionAnimator';
-import styles from './Labs.module.css';
+
 
 export default function Labs() {
   const { theme } = useTheme();

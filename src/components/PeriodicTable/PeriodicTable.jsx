@@ -8,51 +8,34 @@ export default function PeriodicTable({ elements }) {
   const [tableData, setTableData] = useState([]);
   const [highlightGroup, setHighlightGroup] = useState(null);
 
-  // Organize elements into periodic table structure
   useEffect(() => {
     if (elements && elements.length > 0) {
-      const organized = [];
-      
-      // Create empty grid (7 periods, 18 groups)
-      for (let i = 0; i < 7; i++) {
-        organized.push(new Array(18).fill(null));
-      }
-      
-      // Place elements in their positions
+      const organized = Array.from({ length: 7 }, () => new Array(18).fill(null));
+
       elements.forEach(element => {
         if (element.ypos && element.xpos) {
-          // Adjust for array indices (periods start at 1)
           const row = element.ypos - 1;
           const col = element.xpos - 1;
-          
-          // Handle lanthanides and actinides
+
           if (row >= 6 && col <= 2) {
-            // Place them in the correct position (period 6/7, group 3)
             organized[row][2] = element;
           } else {
             organized[row][col] = element;
           }
         }
       });
-      
+
       setTableData(organized);
     }
   }, [elements]);
 
-  const handleElementClick = (element) => {
-    setSelectedElement(element);
-  };
-
-  const handleCloseCard = () => {
-    setSelectedElement(null);
-  };
+  const handleElementClick = (element) => setSelectedElement(element);
+  const handleCloseCard = () => setSelectedElement(null);
 
   const getGroupName = (group) => {
     const groupNames = {
       1: 'Alkali Metals',
       2: 'Alkaline Earth Metals',
-      17: 'Halogens',
-      18: 'Noble Gases',
       3: 'Transition Metals',
       4: 'Transition Metals',
       5: 'Transition Metals',
@@ -66,7 +49,9 @@ export default function PeriodicTable({ elements }) {
       13: 'Boron Group',
       14: 'Carbon Group',
       15: 'Nitrogen Group',
-      16: 'Oxygen Group'
+      16: 'Oxygen Group',
+      17: 'Halogens',
+      18: 'Noble Gases'
     };
     return groupNames[group] || '';
   };
@@ -74,8 +59,9 @@ export default function PeriodicTable({ elements }) {
   return (
     <div className={styles.periodicTableContainer}>
       <h1 className={styles.title}>Interactive Periodic Table</h1>
-      
-      <div className={styles.legend}>
+
+      {/* ✅ Legend buttons */}
+      <div className={styles.legend} role="group" aria-label="Periodic table groups">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map(group => (
           <button
             key={group}
@@ -83,6 +69,8 @@ export default function PeriodicTable({ elements }) {
             onMouseEnter={() => setHighlightGroup(group)}
             onMouseLeave={() => setHighlightGroup(null)}
             onClick={() => setHighlightGroup(group === highlightGroup ? null : group)}
+            aria-pressed={group === highlightGroup}
+            aria-label={`Group ${group}: ${getGroupName(group)}`}
           >
             {group}
             <span className={styles.groupTooltip}>{getGroupName(group)}</span>
@@ -90,11 +78,12 @@ export default function PeriodicTable({ elements }) {
         ))}
       </div>
 
+      {/* ✅ Periodic Table Grid */}
       <div className={styles.tableWrapper}>
         <div className={styles.periodicTable}>
           {tableData.map((period, rowIndex) => (
             <div key={`period-${rowIndex}`} className={styles.period}>
-              {period.map((element, colIndex) => (
+              {period.map((element, colIndex) =>
                 element ? (
                   <ElementTile
                     key={element.number}
@@ -105,12 +94,12 @@ export default function PeriodicTable({ elements }) {
                 ) : (
                   <div key={`empty-${rowIndex}-${colIndex}`} className={styles.emptyTile} />
                 )
-              ))}
+              )}
             </div>
           ))}
         </div>
 
-        {/* Lanthanides and Actinides series */}
+        {/* ✅ Lanthanides and Actinides */}
         <div className={styles.seriesContainer}>
           <div className={styles.series}>
             <h3>Lanthanides</h3>
@@ -127,6 +116,7 @@ export default function PeriodicTable({ elements }) {
                 />
               ))}
           </div>
+
           <div className={styles.series}>
             <h3>Actinides</h3>
             {elements
@@ -145,6 +135,7 @@ export default function PeriodicTable({ elements }) {
         </div>
       </div>
 
+      {/* ✅ Element detail card */}
       {selectedElement && (
         <ElementCard
           element={selectedElement}
