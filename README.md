@@ -59,3 +59,34 @@ src/
 └── main.jsx         # Entry point
 ```
 
+## Available Scripts
+
+```bash
+## Available Scripts
+
+| Command          | Description                              |
+|------------------|------------------------------------------|
+| `npm run dev`    | Starts the development server            |
+| `npm run build`  | Creates an optimized production build    |
+| `npm run preview`| Serves the production build locally      |
+| `npm run lint`   | Runs ESLint to check for code issues     |
+| `npm run format` | Formats code using Prettier              |
+| `npm test`       | Runs any available tests                 |
+
+```
+
+
+## How to use
+
+1. Explore Elements
+- Click any element tile for detailed information
+- Use filters to find specific elements
+
+2. View Trends
+- See atomic radius, ionization energy, and electronegativity trends
+- Compare across periods and groups
+
+3. Use Tools
+- Calculate molar masses
+- Balance chemical equations
+- View 3D molecule models
